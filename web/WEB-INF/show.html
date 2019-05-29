@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.4.1.min.js"></script>
+</head>
+<body>
+        <div id="divId1" align="center" style="border: 1px solid red">
+        <table id="tId" border="1">
+            <tr>
+                <th>选择</th>
+                <th>姓名</th>
+                <th>类型</th>
+                <th>迟到时间</th>
+                <th>请假时间</th>
+                <th>早退时间</th>
+                <th>操作</th>
+            </tr>
+        </table>
+        </p>
+        </p>
+        </p>
+        </p>
+        <input id="addId" type="button" value="添加">
+        <input id="delId" type="button" value="删除">
+
+        </div>
+
+        <div id="divId2" align="center" style="border: 1px solid blue">
+            姓名：<input  id="nameId" type="text" name="info"/>
+            </p>
+            考勤类型：
+            <select id="sId">
+                        <option id="zaoId" value="zao">早退</option>
+                        <option id="chiId" value="chi">迟到</option>
+                        <option id="qingId" value="qing">请假</option>
+            </select>
+            </p>
+            迟到时间（分钟）：<input  id="quetimeId" type="text" name="info"/>
+            </p>
+            早退时间（分钟）：<input id="timeId" type="text" name="info"/>
+            </p>
+            请假天数：<input id="luTimeId" type="text" name="info">
+            </p>
+            录入人：老师<input type="radio" value="teacher" name="ok">
+                    学委<input type="radio" value="student" name="ok">
+            </p>
+            <input id="addId2" type="button" value="添加">
+            <input id="closeId" type="button" value="关闭">
+        </div>
+        <script>
+            //得到元素隐藏添加的div
+            $("#divId2").hide();
+            //得到添加按钮，添加显示第二个div的时间
+            $("#addId").click(function () {
+                $("#divId2").show();
+                $("#divId1").hide();
+            })
+            //得到关闭按钮，添加隐藏事件
+            $("#closeId").click(function () {
+                $("#divId2").hide();
+                $("#divId1").show();
+            })
+            //删除的提示以及批量删除
+            $("#delId").click(function () {
+                var ps=confirm("请问是否删除");
+                if(ps==true){
+                    //找到表格的所有儿子
+                    $("input:checkbox:checked").parent().parent().remove();
+                }
+            })
+            //点击继续添加清空所有文本框
+            $("#addId2").click(function () {
+                //获取姓名文本框的信息
+                var nameTxt=$("#nameId").val();
+                //获取考勤类型
+                var opVal=$("#sId").children(":selected").text();
+                //迟到时间获取
+                var cTimeTxt=$("#quetimeId").val();
+                //早退时间获取
+                var zTimeTxt=$("#timeId").val();
+                //请假天数的获取
+                var qTimeTxt=$("#luTimeId").val();
+                //把获取的值丢进第一个表中
+                $("#tId").append("<tr><td>"+"<input type='checkbox'>"+"</td>><td>"+nameTxt+"</td><td>"+opVal
+                    +"</td><td>"+cTimeTxt+"</td><td>"+qTimeTxt+"</td><td>"+zTimeTxt+"</td><td>"+"<a href='javascript:void(0)' onclick='updateOne(this)'>修改</a>"+"</td></tr>");
+                //清空原文本框
+                $("[name='info']").each(function () {
+                    $(this).val("");
+                })
+            })
+            //单行删除的方法
+            function updateOne(updateObj) {
+                $("#divId2").show();
+                var updateCell=updateObj.parentNode;
+                var zaoTui=updateCell.previousSibling.textContent;
+                var qingJia=updateCell.previousSibling.previousSibling.textContent;
+                var chiDao=updateCell.previousSibling.previousSibling.previousSibling.textContent;
+                var leiXing=updateCell.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
+                var xingMing=updateCell.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.textContent;
+                    alert(xingMing+"  "+leiXing+"  "+chiDao+"   "+qingJia+"  "+zaoTui+"  ");
+                    $("#nameId").val(xingMing);
+                if(leiXing=="早退"){
+                    $("#zaoId").attr("selected", true);
+                }
+                if(leiXing=="迟到"){
+                    $("#chiId").attr("selected",true);
+                }
+                if(leiXing=="请假"){
+                    $("#qingId").attr("selected",true);
+                }
+                $("#quetimeId").val(chiDao);
+                $("#timeId").val(zaoTui);
+                $("#luTimeId").val(qingJia);
+
+            }
+        </script>
+
+</body>
+</html>
